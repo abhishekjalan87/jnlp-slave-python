@@ -12,9 +12,9 @@ RUN apt-get update && \
     $(lsb_release -cs) \
     stable" && \
     apt-get update && \
-    apt-get -y install docker-ce
+    apt-get -y install docker-ce 
 RUN usermod -a -G docker jenkins
-RUN apt-get update && apt-get install -y python-pip 
+RUN apt-get update && apt-get install -y python-pip libgdal-dev zip
 RUN pip install ansible 
 RUN mkdir -p /home/jenkins/.ansible && \
     mkdir -p /home/jenkins/.ssh && \
