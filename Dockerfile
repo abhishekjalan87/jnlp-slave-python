@@ -14,7 +14,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get -y install docker-ce 
 RUN usermod -a -G docker jenkins
-RUN apt-get update && apt-get install -y python3.7 python3-pip libgdal-dev zip
+RUN apt-get update && apt-get install -y python3.7 python3-pip libgdal-dev zip gettext-base
 RUN ln -sf /usr/bin/python3.7 /usr/bin/python && \
     ln -sf /usr/bin/pip3.7 /usr/bin/pip
 RUN pip3 install ansible 
