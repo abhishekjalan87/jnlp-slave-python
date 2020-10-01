@@ -43,12 +43,13 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg ma
 RUN apt-get update \
     && apt-get install -y postgis postgresql-10-postgis-3
 
-RUN mkdir -p /docker-entrypoint-initdb.d
-COPY ./initdb-postgis.sh /docker-entrypoint-initdb.d/10_postgis.sh
-COPY ./update-postgis.sh /usr/local/bin
+RUN mkdir /tmp/script
+COPY ./*.sh /tmp/script/
+RUN chmod +x /tmp/script/*.sh
 
 EXPOSE 5432
 
-# CMD ["/usr/lib/postgresql/10/bin/postgres", "-D", "/var/lib/postgresql/10/main", "-c", "config_file=/etc/postgresql/10/main/postgresql.conf"]
+USER postgres
+CMD ["/tmp/script/postgres.sh"]
 
 USER jenkins
