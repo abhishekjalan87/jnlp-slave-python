@@ -1,6 +1,5 @@
 FROM  jenkins/inbound-agent:latest-jdk11 
 
-
 USER root
 RUN apt-get update && \
     apt-get -y install apt-transport-https \
@@ -31,7 +30,11 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
 RUN apt-get update
 RUN apt-get install -y postgresql-10 postgresql-client-10 postgresql-contrib-10 gnupg2
+RUN sudo sh -c "echo \"jenkins ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
+RUN sudo sh -c "echo \"postgres ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
+
 USER postgres
+
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
     createdb -O docker docker
@@ -44,12 +47,11 @@ RUN apt-get update \
     && apt-get install -y postgis postgresql-10-postgis-3
 
 RUN mkdir /tmp/script
-COPY ./*.sh /tmp/script/
-RUN chmod +x /tmp/script/*.sh
+COPY ./postgres.sh /tmp/script/
+RUN chmod +x /tmp/script/postgres.sh
 
 EXPOSE 5432
 
-USER postgres
 CMD ["/tmp/script/postgres.sh"]
 
 USER jenkins
