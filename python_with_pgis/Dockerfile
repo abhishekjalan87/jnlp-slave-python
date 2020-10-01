@@ -52,6 +52,6 @@ RUN chmod +x /tmp/script/postgres.sh
 
 EXPOSE 5432
 
-CMD ["/tmp/script/postgres.sh"]
+# CMD ["/tmp/script/postgres.sh"]
 
 USER jenkins
