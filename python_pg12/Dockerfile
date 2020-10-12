@@ -24,6 +24,13 @@ RUN mkdir -p /home/jenkins/.ansible && \
     chown -R 1000:1000 /home/jenkins/.ansible && \
     chown -R 1000:1000 /home/jenkins/.ssh
 
+##Install Docker Compose
+RUN sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+RUN sudo chmod +x /usr/local/bin/docker-compose
+RUN docker-compose --version
+##Install AWS CLI
+RUN sudo apt-get install -y awscli 
+
 ##Install PG
 RUN apt-get install -y wget ca-certificates build-essential curl
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
