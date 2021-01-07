@@ -49,6 +49,11 @@ RUN sudo chmod +x /usr/local/bin/docker-compose
 ##Install AWS CLI
 RUN sudo apt-get install -y awscli 
 
+##Install Sentry CLI
+RUN curl -sL https://sentry.io/get-cli/ | bash
+RUN sentry-cli --version
+
+
 ##Install PG
 RUN apt-get install -y wget ca-certificates build-essential curl && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
